@@ -8,9 +8,11 @@ import {
   Icon,
   chakra,
   Tooltip,
+  Spinner
 } from "@chakra-ui/react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
+import React from "react";
 
 const data = {
   isNew: true,
@@ -25,6 +27,23 @@ const data = {
 interface RatingProps {
   rating: number;
   numReviews: number;
+}
+
+interface CardProps {
+  name:string;
+  image:string;
+  description:string;
+  brand:string;
+  category:string;
+  price:number;
+  countInStock:number;
+  rating: number;
+  numReviews: number;
+ 
+}
+
+interface Props {
+  test:CardProps
 }
 
 function Rating({ rating, numReviews }: RatingProps) {
@@ -55,7 +74,10 @@ function Rating({ rating, numReviews }: RatingProps) {
   );
 }
 
-export const ProductAddToCartt = () => {
+export const ProductAddToCartt = ({test}:Props) => {
+
+
+  
   return (
     <Flex p={10}  alignItems="center" justifyContent="center">
       <Box
@@ -78,9 +100,12 @@ export const ProductAddToCartt = () => {
         )}
 
         <Image
-          src={data.imageURL}
+          src={test.image}
           alt={`Picture of ${data.name}`}
           roundedTop="lg"
+          fallback={<Spinner w="250px" h="250px"></Spinner>}
+          boxSize="250px"
+          objectFit="cover"
         />
 
         <Box p="3">
