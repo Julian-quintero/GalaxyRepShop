@@ -18,7 +18,8 @@ export const useProducts = () => {
 
     return {
         products,
-        loading
+        loading,
+        error
     }
 
 }

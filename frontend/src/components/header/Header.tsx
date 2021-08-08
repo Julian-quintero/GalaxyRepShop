@@ -1,19 +1,17 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
-
+import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import Logo from "./Logo";
+import { BiCart } from "react-icons/bi";
 
-
-
-
-const NavBar = (props:any) => {
+const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <NavBarContainer {...props}>
-    <Logo
+      <Logo
         w="100px"
         color={["white", "white", "primary.500", "primary.500"]}
       />
@@ -45,7 +43,7 @@ const MenuIcon = () => (
   </svg>
 );
 
-const MenuToggle = ({ toggle, isOpen }:{toggle:any,isOpen:boolean }) => {
+const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   return (
     <Box display={{ base: "block", md: "none" }} onClick={toggle}>
       {isOpen ? <CloseIcon /> : <MenuIcon />}
@@ -53,17 +51,24 @@ const MenuToggle = ({ toggle, isOpen }:{toggle:any,isOpen:boolean }) => {
   );
 };
 
-const MenuItem = ({children, isLast=false,  ...rest }:{children:any,isLast:any }) => {
+const MenuItem = ({
+  children,
+  isLast = false,
+  ...rest
+}: {
+  children: any;
+  isLast: any;
+}) => {
   return (
-
+    <>
       <Text display="block" {...rest}>
         {children}
       </Text>
-
+    </>
   );
 };
 
-const MenuLinks = ({ isOpen }:{isOpen:any }) => {
+const MenuLinks = ({ isOpen }: { isOpen: any }) => {
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -76,18 +81,30 @@ const MenuLinks = ({ isOpen }:{isOpen:any }) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 4, 0]}
       >
-        <MenuItem isLast={false}>Home</MenuItem>
-        <MenuItem isLast={false}>How It works </MenuItem>
-        <MenuItem isLast={false}>Features </MenuItem>
-        <MenuItem  isLast={false}>Pricing </MenuItem>
-        <MenuItem  isLast>
+        <Button leftIcon={<BiCart></BiCart>} colorScheme="teal">
+          Cart
+        </Button>
+        <MenuItem isLast>
           <Button
-            size="sm"
+            size="md"
             rounded="md"
             color={["primary.500", "primary.500", "white", "white"]}
             bg={["white", "white", "primary.500", "primary.500"]}
             _hover={{
-              bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
+              bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
+            }}
+          >
+            Login
+          </Button>
+        </MenuItem>
+        <MenuItem isLast>
+          <Button
+            size="md"
+            rounded="md"
+            color={["primary.500", "primary.500", "white", "white"]}
+            bg={["white", "white", "primary.500", "primary.500"]}
+            _hover={{
+              bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
             }}
           >
             Create Account
@@ -98,7 +115,13 @@ const MenuLinks = ({ isOpen }:{isOpen:any }) => {
   );
 };
 
-const NavBarContainer = ({ children, ...props }:{children:any,props:any}) => {
+const NavBarContainer = ({
+  children,
+  ...props
+}: {
+  children: any;
+  props: any;
+}) => {
   return (
     <Flex
       as="nav"
