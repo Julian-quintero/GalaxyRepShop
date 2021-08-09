@@ -3,6 +3,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
 import {
+  productDetailsReducer,
   productListReducer
 } from "./reducers/productReducers";
 
@@ -14,7 +15,9 @@ declare global {
 
 
 const reducer = combineReducers({
-  productList: productListReducer
+  productList: productListReducer,
+  productDetails: productDetailsReducer
+
 });
 
 const initialState = {};

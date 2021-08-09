@@ -7,6 +7,9 @@ import asyncHandler from "express-async-handler";
 //@route GET /api/products/:id
 //@acess Public
 const getProductById = asyncHandler(async (req, res) => {
+
+  console.log('tete');
+
   try {
     const product = await Product.findById(req.params.id);
     res.json(product);

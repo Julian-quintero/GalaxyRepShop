@@ -1,6 +1,4 @@
-import React from "react";
 import {
-  Stack,
   SimpleGrid,
   Box,
   Image,
@@ -15,7 +13,38 @@ import {
   Button
 } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
-export const DetailsScreen = () => {
+import {RouteComponentProps } from 'react-router-dom';
+import { useDetails } from "../hooks/useDetails";
+
+interface MatchParams {
+  id: string | undefined;
+}
+
+export interface productInterface {
+  rating:       number;
+  numReviews:   number;
+  price:        number;
+  countInStock: number;
+  _id:          string;
+  name:         string;
+  image:        string;
+  description:  string;
+  brand:        string;
+  category:     string;
+  user:         string;
+  reviews:      any[];
+  __v:          number;
+  createdAt:    Date;
+  updatedAt:    Date;
+}
+export const DetailsScreen = ({match}:RouteComponentProps<MatchParams>) => {
+
+
+
+const {loading,product,error} : {product:productInterface, loading:boolean, error:string} = useDetails(match.params.id)
+ 
+
+
   return (
     <>
       <SimpleGrid columns={[1, 1, 2]} spacing={10} m={10}>
@@ -30,11 +59,11 @@ export const DetailsScreen = () => {
           </Center>
         </Box>
         <Box w="100%" p={4}>
-          <Heading mb={4}>Playstation</Heading>
+          <Heading mb={4}></Heading>
           <Stat>
-            <StatNumber>Price: $300</StatNumber>
+            <StatNumber>{}</StatNumber>
             <Text fontSize="xl" mt={5} color="green" fontWeight={700} >
-        Available
+       {product.name}
           </Text>
             <Flex mt={5} >
             <Text fontSize="xl">

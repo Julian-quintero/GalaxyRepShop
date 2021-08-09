@@ -55,7 +55,30 @@ export const listProducts = (keyword='') => {
   };
 };
 
-export const listProductsDetails = (id:number) => {
+export interface productInterface {
+  rating:       number;
+  numReviews:   number;
+  price:        number;
+  countInStock: number;
+  _id:          string;
+  name:         string;
+  image:        string;
+  description:  string;
+  brand:        string;
+  category:     string;
+  user:         string;
+  reviews:      any[];
+  __v:          number;
+  createdAt:    Date;
+  updatedAt:    Date;
+}
+
+export const listProductsDetails = (id:string | undefined) => {  
+
+  
+
+   
+    
   return async (dispatch:Dispatch) => {
     try {
       dispatch({
@@ -63,7 +86,13 @@ export const listProductsDetails = (id:number) => {
       });
 
       const res = await fetch(`/api/products/${id}`);
-      const data = await res.json();
+      const data:productInterface = await res.json();
+
+      
+      
+
+    
+      
 
       dispatch({
         type: PRODUCT_DETAILS_SUCCESS,
