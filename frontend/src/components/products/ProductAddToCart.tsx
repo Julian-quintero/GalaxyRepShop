@@ -13,7 +13,7 @@ import {
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import React from "react";
-
+import { Link } from "react-router-dom";
 const data = {
   isNew: true,
   imageURL:
@@ -30,6 +30,7 @@ interface RatingProps {
 }
 
 interface CardProps {
+  _id: string;
   name:string;
   image:string;
   description:string;
@@ -43,7 +44,7 @@ interface CardProps {
 }
 
 interface Props {
-  test:CardProps
+  product:CardProps
 }
 
 function Rating({ rating, numReviews }: RatingProps) {
@@ -74,12 +75,13 @@ function Rating({ rating, numReviews }: RatingProps) {
   );
 }
 
-export const ProductAddToCartt = ({test}:Props) => {
+export const ProductAddToCartt = ({product}:Props) => {
 
 
   
   return (
-    <Flex p={10}  alignItems="center" justifyContent="center">
+    <Flex p={10}  alignItems="center" justifyContent="center" bg="purple">
+             <Link to={`/product/${product._id}`}>
       <Box
         bg={useColorModeValue("white", "gray.800")}
         maxW="sm"
@@ -100,7 +102,7 @@ export const ProductAddToCartt = ({test}:Props) => {
         )}
 
         <Image
-          src={test.image}
+          src={product.image}
           alt={`Picture of ${data.name}`}
           roundedTop="lg"
           fallback={<Spinner w="250px" h="250px"></Spinner>}
@@ -109,12 +111,15 @@ export const ProductAddToCartt = ({test}:Props) => {
         />
 
         <Box p="3">
+        
           <Box d="flex" alignItems="baseline">
+        
             {data.isNew && (
               <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
                 New
               </Badge>
             )}
+           
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box
@@ -146,10 +151,15 @@ export const ProductAddToCartt = ({test}:Props) => {
                 £
               </Box>
               {data.price.toFixed(2)}
+          
             </Box>
+
           </Flex>
+         
         </Box>
+       
       </Box>
+      </Link>
     </Flex>
   );
 };

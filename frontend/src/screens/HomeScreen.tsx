@@ -4,7 +4,7 @@ import { Stack, SimpleGrid } from "@chakra-ui/react";
 import { useProducts } from "../hooks/useProducts";
 import { Skele } from "../components/other/Skele";
 import { TextBig } from "../components/other/TextBig";
-
+import { Link } from "react-router-dom";
 export const HomeScreen = ({ match }: any) => {
   const keyword = match.params.keyword;
   const { products, loading, error } = useProducts();
@@ -25,7 +25,9 @@ export const HomeScreen = ({ match }: any) => {
         >
           <SimpleGrid columns={[1, 2, 3, 4]}>
             {products.map((item: any) => (
-              <ProductAddToCartt test={item}></ProductAddToCartt>
+       
+              <ProductAddToCartt product={item}></ProductAddToCartt>
+ 
             ))}
           </SimpleGrid>
         </Stack>

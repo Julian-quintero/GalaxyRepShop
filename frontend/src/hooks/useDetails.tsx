@@ -29,6 +29,8 @@ export const useDetails = (id: string | undefined) => {
     const productDetails = useSelector((state:any)=> state.productDetails)     
     //state as any is temporal, should define complete state 
     const {loading,error,product} = productDetails
+
+   
  
 
     useEffect(() => {

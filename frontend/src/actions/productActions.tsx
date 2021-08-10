@@ -12,6 +12,7 @@ import {
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUESTS,
+  PRODUCT_DETAILS_RESET,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
@@ -32,6 +33,10 @@ export const listProducts = (keyword='') => {
 
   return async (dispatch:Dispatch) => {
     try {
+
+      
+
+
       dispatch<listProducts>({
         type: PRODUCT_LIST_REQUEST,
       });
@@ -81,8 +86,15 @@ export const listProductsDetails = (id:string | undefined) => {
     
   return async (dispatch:Dispatch) => {
     try {
+
+      dispatch({
+        type: PRODUCT_DETAILS_RESET 
+      });
+
+
       dispatch({
         type: PRODUCT_DETAILS_REQUESTS,
+        loading:true
       });
 
       const res = await fetch(`/api/products/${id}`);
@@ -97,6 +109,7 @@ export const listProductsDetails = (id:string | undefined) => {
       dispatch({
         type: PRODUCT_DETAILS_SUCCESS,
         payload: data,
+        loading:false
       });
     } catch (error) {
       dispatch({

@@ -11,7 +11,7 @@ function App() {
   return (
 <Router>
 <Header></Header>
-<Route path="/" component={CartScreen} exact></Route>
+<Route path="/" component={HomeScreen} exact></Route>
 <Route path="/product/:id" component={DetailsScreen}></Route>
 </Router>
     
