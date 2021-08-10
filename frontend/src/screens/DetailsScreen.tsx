@@ -12,10 +12,14 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
+import React from 'react'
 import { BiCart } from "react-icons/bi";
 import { RouteComponentProps } from "react-router-dom";
 import { useDetails } from "../hooks/useDetails";
 import { useHistory } from "react-router-dom";
+import Lottie from 'react-lottie'
+
+import animationData from "../lottie/9844-loading-40-paperplane.json";
 
 interface MatchParams {
   id: string | undefined;
@@ -46,10 +50,25 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   }: { product: productInterface; loading: boolean; error: string } =
     useDetails(match.params.id);
   const history = useHistory();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
  
 
   if (loading) {
-    return <p>...LOADING</p>;
+    return (
+      <Lottie
+      options={defaultOptions}
+      height={600}
+      width={600} 
+    />
+    )
   } else if (error) {
     history.push("/");
   }

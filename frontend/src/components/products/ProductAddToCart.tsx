@@ -80,7 +80,7 @@ export const ProductAddToCartt = ({product}:Props) => {
 
   
   return (
-    <Flex p={10}  alignItems="center" justifyContent="center" bg="purple">
+    <Flex p={10}  alignItems="center" justifyContent="center" >
              <Link to={`/product/${product._id}`}>
       <Box
         bg={useColorModeValue("white", "gray.800")}
