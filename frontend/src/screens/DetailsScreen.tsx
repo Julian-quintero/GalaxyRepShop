@@ -12,36 +12,20 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
-import React from 'react'
 import { BiCart } from "react-icons/bi";
 import { RouteComponentProps } from "react-router-dom";
 import { useDetails } from "../hooks/useDetails";
 import { useHistory } from "react-router-dom";
-import Lottie from 'react-lottie'
+import Lottie from "react-lottie";
 
 import animationData from "../lottie/9844-loading-40-paperplane.json";
+import { productInterface } from "../actions/interfaces/product";
+import { useState } from "react";
 
 interface MatchParams {
   id: string | undefined;
 }
 
-export interface productInterface {
-  rating: number;
-  numReviews: number;
-  price: number;
-  countInStock: number;
-  _id: string;
-  name: string;
-  image: string;
-  description: string;
-  brand: string;
-  category: string;
-  user: string;
-  reviews: any[];
-  __v: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   const {
     loading,
@@ -50,25 +34,23 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   }: { product: productInterface; loading: boolean; error: string } =
     useDetails(match.params.id);
   const history = useHistory();
+  const [qty, setQty] = useState(1)
 
   const defaultOptions = {
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
- 
+
+  const addToCartHandler=()=>{
+    history.push(`/cart/${match.params.id}?qty=${qty}`)
+  }
 
   if (loading) {
-    return (
-      <Lottie
-      options={defaultOptions}
-      height={600}
-      width={600} 
-    />
-    )
+    return <Lottie options={defaultOptions} height={600} width={600} />;
   } else if (error) {
     history.push("/");
   }
@@ -93,22 +75,19 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
             <Text fontSize="xl" mt={5} color="green" fontWeight={700}>
               {product.name}
             </Text>
-            <Text fontSize="xl" mt={5} fontWeight={700}>$ {product.price}</Text>
+            <Text fontSize="xl" mt={5} fontWeight={700}>
+              $ {product.price}
+            </Text>
             <Flex mt={5}>
               <Text fontSize="xl">Qty:</Text>
-              <Select w={20} ml={3}>
-         
-                {
-
- 
-
-Array.from(Array(product.countInStock).keys()).map((i,index) => (          
-             
-                   
-                  <option value="option1">{index + 1}</option>
-                ))}
+              <Select w={20} ml={3} onChange={(e)=>{setQty(Number(e.target.value))}}>
+                {Array.from(Array(product.countInStock).keys()).map(
+                  (i, index) => (
+                    <option>{index + 1}</option>
+                  )
+                )}
               </Select>
-              <Button leftIcon={<BiCart></BiCart>} colorScheme="teal" ml={3}>
+              <Button leftIcon={<BiCart></BiCart>} colorScheme="teal" ml={3} onClick={addToCartHandler}>
                 Add to cart
               </Button>
             </Flex>

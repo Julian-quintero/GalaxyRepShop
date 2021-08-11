@@ -1,11 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 
 import thunk from "redux-thunk";
+import { cartReducer } from "./reducers/cartReducer";
 
 import {
   productDetailsReducer,
   productListReducer
 } from "./reducers/productReducers";
+import { rootReducer } from "./reducers/rootReducer";
 
 declare global {
   interface Window {
@@ -15,12 +17,26 @@ declare global {
 
 
 const reducer = combineReducers({
+  rootState: rootReducer,
   productList: productListReducer,
-  productDetails: productDetailsReducer
+  productDetails: productDetailsReducer,
+  cartReducer: cartReducer
 
 });
 
-const initialState = {};
+
+let cartItemsFromLocalStorage = localStorage.getItem("cartItems")
+if (cartItemsFromLocalStorage) {
+  JSON.parse(cartItemsFromLocalStorage)
+}
+
+interface pop{
+  productList2?: undefined
+}
+
+const initialState = {
+ 
+};
 
 const composeEnhancers =
   (typeof window !== "undefined" &&

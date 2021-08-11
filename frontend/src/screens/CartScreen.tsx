@@ -1,23 +1,9 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import {
-  Stack,
   SimpleGrid,
   Box,
-  Image,
   Center,
-  Heading,
-  Text,
-  StatNumber,
-  Stat,
-  Divider,
-  Select,
-  Flex,
   Button,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
   Table,
   Thead,
   Tbody,
@@ -29,7 +15,33 @@ import {
 } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
 import { CartItems} from "../components/cart/CartItems";
-export const CartScreen = () => {
+import { RouteComponentProps,useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from "../actions/cartActions";
+interface MatchParams {
+  id: string | undefined;
+}
+
+interface stateType {
+  from: { pathname: string }
+}
+
+export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
+
+  const dispatch = useDispatch()
+
+  let location = useLocation<stateType>();  
+  const productId = match.params.id
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1
+
+  useEffect(() => {
+    if (productId) {
+      dispatch(addToCart(productId, qty))
+  }
+  }, [dispatch])
+
+  
+
   return (
       <>
     <SimpleGrid columns={[1, 1, 2]} spacing={10} m={10}>
@@ -57,13 +69,13 @@ export const CartScreen = () => {
       <Td>$ 3000</Td>
     </Tr>
     <Center>
-    <Tfoot>
+ 
 
        
   
     <Button leftIcon={<BiCart></BiCart>} colorScheme="green" mt={2}  maxH="sm" maxW="sm" >GO TO CHECKOUT</Button>
    
-    </Tfoot>
+    
     </Center>
   </Tbody>
 

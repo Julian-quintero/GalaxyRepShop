@@ -29,37 +29,6 @@ interface listProducts{
 }
 
 
-export const listProducts = (keyword='') => {
-
-  return async (dispatch:Dispatch) => {
-    try {
-
-      
-
-
-      dispatch<listProducts>({
-        type: PRODUCT_LIST_REQUEST,
-      });
-
-      const res = await fetch(`/api/products?keyword=${keyword}`);
-      const data = await res.json();
-
-      dispatch({
-        type: PRODUCT_LIST_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: PRODUCT_LIST_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
-};
-
 export interface productInterface {
   rating:       number;
   numReviews:   number;
@@ -77,6 +46,36 @@ export interface productInterface {
   createdAt:    Date;
   updatedAt:    Date;
 }
+
+
+export const listProducts = (keyword='') => {
+
+  return async (dispatch:Dispatch) => {
+    try {
+
+      dispatch<listProducts>({
+        type: PRODUCT_LIST_REQUEST,
+      });
+
+      const res = await fetch(`/api/products?keyword=${keyword}`);
+      const data: productInterface[] = await res.json();
+
+      dispatch({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+};
+
 
 export const listProductsDetails = (id:string | undefined) => {  
 
@@ -99,10 +98,6 @@ export const listProductsDetails = (id:string | undefined) => {
 
       const res = await fetch(`/api/products/${id}`);
       const data:productInterface = await res.json();
-
-      
-      
-
     
       
 

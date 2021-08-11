@@ -108,6 +108,9 @@ export const ProductAddToCartt = ({product}:Props) => {
           fallback={<Spinner w="250px" h="250px"></Spinner>}
           boxSize="250px"
           objectFit="cover"
+          border="30px"
+           borderColor="black"
+           borderWidth="30px"
         />
 
         <Box p="3">

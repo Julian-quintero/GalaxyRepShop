@@ -13,6 +13,7 @@ function App() {
 <Header></Header>
 <Route path="/" component={HomeScreen} exact></Route>
 <Route path="/product/:id" component={DetailsScreen}></Route>
+<Route path="/cart/:id?" component={CartScreen}></Route>
 </Router>
     
   );
