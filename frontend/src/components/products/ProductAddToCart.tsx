@@ -84,8 +84,9 @@ export const ProductAddToCartt = ({product}:Props) => {
              <Link to={`/product/${product._id}`}>
       <Box
         bg={useColorModeValue("white", "gray.800")}
-        maxW="sm"
-       
+        maxW="lg"
+        boxSize="300px"
+       h="350px"
         borderWidth="1px"
         rounded="lg"
         shadow="lg"
@@ -103,11 +104,11 @@ export const ProductAddToCartt = ({product}:Props) => {
 
         <Image
           src={product.image}
-          alt={`Picture of ${data.name}`}
+          alt={`Picture of ${product.name}`}
           roundedTop="lg"
           fallback={<Spinner w="250px" h="250px"></Spinner>}
-          boxSize="250px"
-          objectFit="cover"
+         
+          objectFit="contain"
           border="30px"
            borderColor="black"
            borderWidth="30px"
@@ -126,15 +127,15 @@ export const ProductAddToCartt = ({product}:Props) => {
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box
-              fontSize="2xl"
-              fontWeight="semibold"
-              as="h4"
+              fontSize="md"      
+              as="h2"
               lineHeight="tight"
               isTruncated
+           
             >
-              {data.name}
+              {product.name}
             </Box>
-            <Tooltip
+            {/* <Tooltip
               label="Add to cart"
               bg="white"
               placement={"top"}
@@ -142,18 +143,18 @@ export const ProductAddToCartt = ({product}:Props) => {
               fontSize={"1.2em"}
             >
               <chakra.a href={"#"} display={"flex"}>
-                <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
+                <Icon as={FiShoppingCart} h={5} w={5} alignSelf={"center"} />
               </chakra.a>
-            </Tooltip>
+            </Tooltip> */}
           </Flex>
 
           <Flex justifyContent="space-between" alignContent="center">
-            <Rating rating={data.rating} numReviews={data.numReviews} />
-            <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
+            <Rating rating={product.rating} numReviews={product.numReviews} />
+            <Box fontSize="sm" color={useColorModeValue("gray.800", "white")}>
               <Box as="span" color={"gray.600"} fontSize="lg">
-                £
+                $
               </Box>
-              {data.price.toFixed(2)}
+              {product.price.toFixed(2)}
           
             </Box>
 

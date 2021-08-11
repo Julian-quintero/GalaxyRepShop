@@ -9,34 +9,47 @@ import {
 
 import { Dispatch } from "redux";
 import {productInterface} from "./interfaces/product"
+import { cartItemsLoad } from "./rootActions";
 
 
 
 
-export const addToCart = (id:string, qty:number) => {
-  return async (dispatch:Dispatch, getState:any) => {
+export const addToCart = (id:string|undefined, qty:number) => {
+  return async (dispatch:any, getState:any) => {
 
-    const res = await axios.get<productInterface>(`/api/products/${id}`);
-    const data = res.data
+    if (id) {
+      const res = await axios.get<productInterface>(`/api/products/${id}`);
+      const data = res.data
+      dispatch({
+        type: CART_ADD_ITEM,
+        payload: {
+          product: data._id,
+          name: data.name,
+          image: data.image,
+          price: data.price,
+          countInStock: data.countInStock,
+          qty,
+        },
+      });
+  
+        localStorage.setItem(
+          "cartItems",
+           JSON.stringify(getState().cartReducer.cartItems)
+        );
+      
+    }
 
   
-    
 
-    dispatch({
-      type: CART_ADD_ITEM,
-      payload: {
-        product: data._id,
-        name: data.name,
-        image: data.image,
-        price: data.price,
-        countInStock: data.countInStock,
-        qty,
-      },
-    });
-
-     localStorage.setItem(
-        "cartItems",
-        JSON.stringify(getState().cartReducer.cartItems)
-      );
+      let cartItemsFromLocalStorage:any = localStorage.getItem("cartItems")
+      let result =[] as any[]
+      if (cartItemsFromLocalStorage) {
+        result = JSON.parse(cartItemsFromLocalStorage)
+        dispatch(cartItemsLoad( result))
+       }else
+       {
+         console.log("no se cumplio");
+         
+       }  
   };
 };

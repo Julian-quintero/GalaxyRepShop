@@ -25,17 +25,16 @@ const reducer = combineReducers({
 });
 
 
-let cartItemsFromLocalStorage = localStorage.getItem("cartItems")
-if (cartItemsFromLocalStorage) {
-  JSON.parse(cartItemsFromLocalStorage)
-}
+// let cartItemsFromLocalStorage = localStorage.getItem("cartItems")
+// if (cartItemsFromLocalStorage) {
+//   JSON.parse(cartItemsFromLocalStorage)
+// }
 
-interface pop{
-  productList2?: undefined
-}
+
+
 
 const initialState = {
- 
+
 };
 
 const composeEnhancers =

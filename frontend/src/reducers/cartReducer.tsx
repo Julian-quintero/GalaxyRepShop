@@ -24,8 +24,9 @@ export const cartReducer = (state = { cartItems: [] as any[] ,shippingAddress:{}
       
       
       const existItem = state.cartItems.find((x) => x.product === item.product)
-
+  
       if (existItem) {
+        console.log('existe')
         return {
           ...state,
           cartItems: state.cartItems.map((x) =>
@@ -34,7 +35,11 @@ export const cartReducer = (state = { cartItems: [] as any[] ,shippingAddress:{}
           //for each product
         };
       } else {
+
+        console.log('noexiste agregando')
         return {
+         
+          
           ...state,
           cartItems: [...state.cartItems, item],
           //if item doesn't exist add it.

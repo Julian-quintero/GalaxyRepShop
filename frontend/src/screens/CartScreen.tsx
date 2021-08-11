@@ -7,17 +7,18 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
 } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
 import { CartItems} from "../components/cart/CartItems";
 import { RouteComponentProps,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from "../actions/cartActions";
+import {  singleProduct } from "../actions/interfaces/product";
+
+
 interface MatchParams {
   id: string | undefined;
 }
@@ -26,19 +27,45 @@ interface stateType {
   from: { pathname: string }
 }
 
+interface RootState {
+  rootState: {cart:{cartItems:{}}},
+  cartReducer:{}
+}
+
+
+
+
 export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
 
   const dispatch = useDispatch()
 
   let location = useLocation<stateType>();  
-  const productId = match.params.id
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1
+  const productId = match?.params.id
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1  
+  const cart:any = useSelector((state:RootState) => state.rootState.cart)  
+  
+
 
   useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty))
-  }
-  }, [dispatch])
+
+ 
+ 
+      dispatch(addToCart(productId, qty))     
+  
+  }, [dispatch,qty,productId])
+
+  
+
+
+  
+
+  if (!cart) {
+
+    return (
+      <p>Tu carrito esta vacio</p>
+    )
+    
+  }else
 
   
 
@@ -46,9 +73,12 @@ export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
       <>
     <SimpleGrid columns={[1, 1, 2]} spacing={10} m={10}>
     <Box w="100%" p={4} color="white">
-        <CartItems></CartItems>
-        <CartItems></CartItems>
-        <CartItems></CartItems>
+    {cart.map((product:singleProduct)=>(     
+      
+ <CartItems product={product}></CartItems>
+    ))}
+
+    
     </Box>
        
    

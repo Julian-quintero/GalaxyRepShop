@@ -26,6 +26,15 @@ interface MatchParams {
   id: string | undefined;
 }
 
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
 export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   const {
     loading,
@@ -36,14 +45,7 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   const history = useHistory();
   const [qty, setQty] = useState(1)
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+ 
 
   const addToCartHandler=()=>{
     history.push(`/cart/${match.params.id}?qty=${qty}`)
@@ -65,6 +67,7 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
               objectFit="cover"
               src={product.image}
               alt="Segun Adebayo"
+              rounded="lg"
             />
           </Center>
         </Box>

@@ -23,7 +23,7 @@ export const HomeScreen = ({ match }: any) => {
           wrap="wrap"
           justify-content="space-around"
         >
-          <SimpleGrid columns={[1, 2, 3, 4]}>
+          <SimpleGrid columns={[1, 1, 2, 4]}>
             {products.map((item: any) => (
        
               <ProductAddToCartt product={item}></ProductAddToCartt>

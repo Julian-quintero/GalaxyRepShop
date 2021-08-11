@@ -15,3 +15,16 @@ export interface productInterface {
     createdAt:    Date;
     updatedAt:    Date;
   }
+
+  export interface singleProduct{
+    product:string,
+    name:string,
+    image:string,
+    price:number,
+    countInStock: number,
+    qty: number
+  }
+
+  export interface cartItem{
+    product:singleProduct
+  }

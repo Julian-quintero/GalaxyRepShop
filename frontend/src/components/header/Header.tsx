@@ -3,7 +3,7 @@ import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import Logo from "./Logo";
 import { BiCart } from "react-icons/bi";
-
+import { Link } from "react-router-dom";
 const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,10 +11,12 @@ const NavBar = (props: any) => {
 
   return (
     <NavBarContainer {...props}>
+      <Link to="/">
       <Logo
         w="100px"
         color={["white", "white", "primary.500", "primary.500"]}
       />
+      </Link>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
     </NavBarContainer>

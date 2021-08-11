@@ -1,12 +1,16 @@
 const ITEM_FROM_LOCAL = 'ITEM_FROM_LOCAL'
 
 
-export const rootReducer = (state = { cart:{cartItems:{}} }, action:any) => {
+export const rootReducer = (state = { }, action:any) => {
     switch (action.type) {
       case ITEM_FROM_LOCAL:
-        return {
-          loading: true,
-          products: [] as any[],
+        const item = action.payload
+        console.log(item)
+        
+        
+        return {       
+          cart: item
+
         };  
   
       default:
