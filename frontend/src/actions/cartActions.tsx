@@ -15,16 +15,8 @@ import { cartItemsLoad } from "./rootActions";
 
 
 export const addToCart = (id:string|undefined, qty:number) => {
-  return async (dispatch:any, getState:any) => {
-
-    let combine
-    let cartItemsFromLocalStorageAfterCartClick:any
-    let result2 = []
-    if ( getState().cartReducer.cartItems.length ===0 && Object.keys(getState().rootState).length!==0) {  
-      console.log('se cumplio');      
-      cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
-      result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick)
-    }
+  return async (dispatch:any, getState:any) => {  
+  
 
     if (id) {
       const res = await axios.get<productInterface>(`/api/products/${id}`);
@@ -39,27 +31,11 @@ export const addToCart = (id:string|undefined, qty:number) => {
           countInStock: data.countInStock,
           qty,
         },
-      });
-
-     
-
-     
-      if (result2.length!==0) {
-        combine = [...getState().cartReducer.cartItems,...result2]
-      }else{
-        combine = getState().cartReducer.cartItems
-      }
-    
-
-      console.log('combine',combine);
-      
-
- 
-      
+      });     
   
         localStorage.setItem(
           "cartItems",
-           JSON.stringify(combine)
+           JSON.stringify(getState().cartReducer.cartItems)
         );
       
     }
@@ -69,6 +45,7 @@ export const addToCart = (id:string|undefined, qty:number) => {
       let cartItemsFromLocalStorage:any = localStorage.getItem("cartItems")
       let result =[] as any[]
       if (cartItemsFromLocalStorage) {
+        console.log("aca");
         result = JSON.parse(cartItemsFromLocalStorage)
         dispatch(cartItemsLoad( result))
        }else

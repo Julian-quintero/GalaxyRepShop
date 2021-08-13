@@ -94,11 +94,10 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
         <Link to="/cart">
           <Box pos="relative">
         <Button leftIcon={<BiCart></BiCart>} colorScheme="teal">
-          Cart
+      
         </Button>
         <Badge ml="1" fontSize="0.8em" boxSize={5} align="center" colorScheme="red" position={"absolute"} zIndex={100} right="-2" borderRadius="50">
-          {console.log(cartItemsFromLocal)
-          }
+       
    {!loading ? cartItemsFromLocal.length: null }
   </Badge>
   </Box>

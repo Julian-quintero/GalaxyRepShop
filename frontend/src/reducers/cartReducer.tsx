@@ -1,32 +1,84 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from "../constants/cartConstants";
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_SAVE_PAYMENT_METHOD,
+  CART_SAVE_SHIPPING_ADDRESS,
+} from "../constants/cartConstants";
 
-  interface cartAddItem  {
-    product:string,
-    name:string, 
-    image: string, 
-    price: number,
-    countInStock: number,
-    qty:number
- }
+interface cartAddItem {
+  product: string;
+  name: string;
+  image: string;
+  price: number;
+  countInStock: number;
+  qty: number;
+}
 
-  interface cartReducer {
-      type: string;
-      payload: cartAddItem
-  }
+interface cartReducer {
+  type: string;
+  payload: cartAddItem;
+}
 
+function checkIfItemExists(arr:any,item:any) {
+
+  console.log('arr',arr);
+  console.log('item',item);
+  
   
 
+  const existItem = arr.find((x:any) => x.product === item.product);
+  let resultArray  
 
-export const cartReducer = (state = { cartItems: [] as any[] ,shippingAddress:{} }, action:cartReducer) => {
+  if (existItem) {
+    console.log('existItem',existItem);  
+    resultArray = arr.map((x:any) =>
+    x.product === existItem.product ? item : x
+  )
+    
+  }else{
+    console.log('no existItem',existItem);  
+    resultArray = [...arr,item]   
+  }
+
+
+  return resultArray    
+}
+
+export const cartReducer = (
+  state = { cartItems: [] as any[], shippingAddress: {} },
+  action: cartReducer
+) => {
   switch (action.type) {
     case CART_ADD_ITEM:
       const item = action.payload;
+      const cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
+      let result2:any
+      let existItem:any
+      let test = [] as any[]
+
+      if (cartItemsFromLocalStorageAfterCartClick) {  
+        
+        result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick)
+        result2 = checkIfItemExists(result2,item)     
+      }else{
+        result2 = item
+      }
+
+      if (!Array.isArray(result2)) {
+        
+         existItem =  state.cartItems.find((x:any) => x.product === item.product);   
+         console.log('existItem',existItem);  
+      }
+
+      // console.log('result2',result2);
+      // console.log('state.cartItems',state.cartItems);
+      // const existItem =  state.cartItems.find((x:any) => x.product === item.product);   
+
       
       
-      const existItem = state.cartItems.find((x) => x.product === item.product)
-  
+
       if (existItem) {
-        console.log('existe')
+        console.log("existe");
         return {
           ...state,
           cartItems: state.cartItems.map((x) =>
@@ -35,16 +87,15 @@ export const cartReducer = (state = { cartItems: [] as any[] ,shippingAddress:{}
           //for each product
         };
       } else {
-
-        console.log('noexiste agregando')
+        console.log("noexiste agregando");
         return {
-         
-          
           ...state,
-          cartItems: [...state.cartItems, item],
+          cartItems: Array.isArray(result2) ? [...result2] : [...test,result2],
           //if item doesn't exist add it.
         };
       }
+
+      
 
     default:
       return state;

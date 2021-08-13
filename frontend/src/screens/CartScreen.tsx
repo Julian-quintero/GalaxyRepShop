@@ -44,12 +44,13 @@ export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   const qty = location.search ? Number(location.search.split('=')[1]) : 1  
   const cart:any = useSelector((state:RootState) => state.rootState.cart)  
   
+  
 
 
   useEffect(() => {
 
  
- 
+      
       dispatch(addToCart(productId, qty))     
   
   }, [dispatch,qty,productId])
@@ -75,7 +76,7 @@ export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
     <Box w="100%" p={4} color="white">
     {cart.map((product:singleProduct)=>(     
       
- <CartItems product={product}></CartItems>
+ <CartItems key={product.name} product={product}></CartItems>
     ))}
 
     
@@ -98,7 +99,7 @@ export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
       <Td>3</Td>
       <Td>$ 3000</Td>
     </Tr>
-    <Center>
+    {/* <Center>
  
 
        
@@ -106,7 +107,7 @@ export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
     <Button leftIcon={<BiCart></BiCart>} colorScheme="green" mt={2}  maxH="sm" maxW="sm" >GO TO CHECKOUT</Button>
    
     
-    </Center>
+    </Center> */}
   </Tbody>
 
 </Table>
