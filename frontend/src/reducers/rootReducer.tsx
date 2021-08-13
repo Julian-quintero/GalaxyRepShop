@@ -5,7 +5,7 @@ export const rootReducer = (state = { }, action:any) => {
     switch (action.type) {
       case ITEM_FROM_LOCAL:
         const item = action.payload
-        console.log(item)
+    
         
         
         return {       

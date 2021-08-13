@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack,Badge} from "@chakra-ui/react";
 import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import Logo from "./Logo";
 import { BiCart } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useGetLocalS } from "../../hooks/useGetLocalS";
 const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+ 
 
   return (
     <NavBarContainer {...props}>
@@ -71,6 +74,11 @@ const MenuItem = ({
 };
 
 const MenuLinks = ({ isOpen }: { isOpen: any }) => {
+
+  const {loading,cartItemsFromLocal} = useGetLocalS()
+
+  
+
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -83,9 +91,18 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 4, 0]}
       >
+        <Link to="/cart">
+          <Box pos="relative">
         <Button leftIcon={<BiCart></BiCart>} colorScheme="teal">
           Cart
         </Button>
+        <Badge ml="1" fontSize="0.8em" boxSize={5} align="center" colorScheme="red" position={"absolute"} zIndex={100} right="-2" borderRadius="50">
+          {console.log(cartItemsFromLocal)
+          }
+   {!loading ? cartItemsFromLocal.length: null }
+  </Badge>
+  </Box>
+        </Link>
         <MenuItem isLast>
           <Button
             size="md"
