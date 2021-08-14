@@ -9,8 +9,30 @@ import {
   } from "@chakra-ui/react";
   import { BiCart } from "react-icons/bi";
 import { cartItem, productInterface } from '../../actions/interfaces/product';
+import Lottie from "react-lottie";
+import animationData from "../../lottie/9825-loading-screen-loader-spinning-circle.json";
+import { removeFromCart } from '../../actions/cartActions';
+import { useDispatch} from 'react-redux'
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
+
+
+
+
 export const CartItems = ({product}:cartItem) => {
   const [qty, setQty] = useState(1)
+  const dispatch = useDispatch()
+
+  const removeFromCartHandler = (id:string) => {
+    dispatch(removeFromCart(id))
+  }
   
     return (
   
@@ -24,6 +46,7 @@ export const CartItems = ({product}:cartItem) => {
             minw="sm"
             maxw="sm"
             rounded="lg"
+            fallback={<Lottie options={defaultOptions} height={150} width={150} />}
           />
 
           <Text fontSize="md"  color="black" m={1}>
@@ -44,7 +67,7 @@ export const CartItems = ({product}:cartItem) => {
                 )}
               </Select>
 
-            <Button leftIcon={<BiCart></BiCart>} colorScheme="red" m={2}>
+            <Button leftIcon={<BiCart></BiCart>} colorScheme="red" m={2} onClick={()=>removeFromCartHandler(product.product)}>
           Delete
         </Button>  
     

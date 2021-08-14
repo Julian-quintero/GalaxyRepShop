@@ -48,13 +48,16 @@ export const cartReducer = (
   state = { cartItems: [] as any[], shippingAddress: {} },
   action: cartReducer
 ) => {
+  const cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
+  const item = action.payload;
+  let result2:any
+  let existItem:any
+  let test = [] as any[]
   switch (action.type) {
     case CART_ADD_ITEM:
-      const item = action.payload;
-      const cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
-      let result2:any
-      let existItem:any
-      let test = [] as any[]
+      
+      
+     
 
       if (cartItemsFromLocalStorageAfterCartClick) {  
         
@@ -94,6 +97,22 @@ export const cartReducer = (
           //if item doesn't exist add it.
         };
       }
+
+      case CART_REMOVE_ITEM:
+
+        if (cartItemsFromLocalStorageAfterCartClick) {        
+          result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick) 
+        }else{
+          result2 = item
+        }
+
+      
+        return {
+          ...state,
+          cartItems: result2.filter(
+            (item:any) => item.product !== action.payload
+          ),
+        };
 
       
 

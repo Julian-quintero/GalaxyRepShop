@@ -15,7 +15,7 @@ import { cartItemsLoad } from "./rootActions";
 
 
 export const addToCart = (id:string|undefined, qty:number) => {
-  return async (dispatch:any, getState:any) => {  
+  return async (dispatch:Dispatch<any>, getState:any) => {  
   
 
     if (id) {
@@ -53,5 +53,21 @@ export const addToCart = (id:string|undefined, qty:number) => {
          console.log("no se cumplio");
          
        }  
+  };
+};
+
+export const removeFromCart = (id:string) => {
+  return (dispatch:Dispatch<any>, getState:any) => {
+    dispatch({
+      type: CART_REMOVE_ITEM,
+      payload: id,
+    });
+
+    dispatch(cartItemsLoad(getState().cartReducer.cartItems))
+
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().cartReducer.cartItems)
+    );
   };
 };

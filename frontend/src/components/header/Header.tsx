@@ -5,7 +5,20 @@ import Logo from "./Logo";
 import { BiCart } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useGetLocalS } from "../../hooks/useGetLocalS";
+import Lottie from "react-lottie";
+import animationData from "../../lottie/9844-loading-40-paperplane.json";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
 const NavBar = (props: any) => {
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);

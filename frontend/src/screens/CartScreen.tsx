@@ -17,7 +17,8 @@ import { RouteComponentProps,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from "../actions/cartActions";
 import {  singleProduct } from "../actions/interfaces/product";
-
+import Lottie from "react-lottie";
+import animationData from "../lottie/11646-no-activity-animation.json";
 
 interface MatchParams {
   id: string | undefined;
@@ -31,6 +32,16 @@ interface RootState {
   rootState: {cart:{cartItems:{}}},
   cartReducer:{}
 }
+
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 
 
@@ -63,7 +74,10 @@ export const CartScreen = ({ match }: RouteComponentProps<MatchParams>) => {
   if (!cart) {
 
     return (
-      <p>Tu carrito esta vacio</p>
+      <Center>
+
+      <Lottie options={defaultOptions} height={200} width={300} />
+      </Center>
     )
     
   }else

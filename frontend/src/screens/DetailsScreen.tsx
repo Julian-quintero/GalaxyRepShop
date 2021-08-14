@@ -86,7 +86,7 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
               <Select w={20} ml={3} onChange={(e)=>{setQty(Number(e.target.value))}}>
                 {Array.from(Array(product.countInStock).keys()).map(
                   (i, index) => (
-                    <option>{index + 1}</option>
+                    <option key={index +1}>{index + 1}</option>
                   )
                 )}
               </Select>
