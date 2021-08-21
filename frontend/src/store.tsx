@@ -16,6 +16,17 @@ declare global {
 } //declaration for devtools since it doesn't have one
 
 
+interface test {
+  rootState:{cart:{}},
+  productList:{
+    loading:boolean,
+    products: any[];
+
+  }, 
+  productDetails:{product:{}}, 
+  cartReducer:{cartItems:any[],shippingAddress:{}}
+}
+
 const reducer = combineReducers({
   rootState: rootReducer,
   productList: productListReducer,

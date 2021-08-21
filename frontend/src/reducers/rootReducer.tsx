@@ -1,19 +1,15 @@
-const ITEM_FROM_LOCAL = 'ITEM_FROM_LOCAL'
+const ITEM_FROM_LOCAL = "ITEM_FROM_LOCAL";
 
+export const rootReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case ITEM_FROM_LOCAL:
+      const item = action.payload;
 
-export const rootReducer = (state = { }, action:any) => {
-    switch (action.type) {
-      case ITEM_FROM_LOCAL:
-        const item = action.payload
-    
-        
-        
-        return {       
-          cart: item
+      return {
+        cart: item,
+      };
 
-        };  
-  
-      default:
-        return state;
-    }
-  };
+    default:
+      return state;
+  }
+};

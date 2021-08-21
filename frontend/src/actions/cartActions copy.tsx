@@ -24,7 +24,7 @@ export const addToCart = (id:string|undefined, qty:number) => {
     
     let result2 = []
     if ( getState().cartReducer.cartItems.length ===0 && Object.keys(getState().rootState).length!==0) {  
-      console.log('se cumplio');      
+       
       cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
       result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick)
     }
@@ -42,44 +42,41 @@ export const addToCart = (id:string|undefined, qty:number) => {
           countInStock: data.countInStock,
           qty,
         },
-      });
+      });    
 
-     
-  console.log('el root es:',Object.keys(getState().rootState).length );
-  console.log('el reducer es:',getState().cartReducer.cartItems.length );
   
      
       if (result2.length!==0) {
         combine = [...getState().cartReducer.cartItems,...result2]
-        console.log(' entre al if');
+     
         
       }else if(result2.length!==0 && Object.keys(getState().rootState).length!==0){
 
-        console.log(' entre al otro if');
+
 
         combine = [...getState().cartReducer.cartItems,...result2]
       }else if(Object.keys(getState().rootState).length===0 && result2.length!==0){
-        console.log(' entre al otro if 2');
+    
         cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
         result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick)
         combine = [...getState().cartReducer.cartItems,...result2]
 
       }else if (Object.keys(getState().rootState).length===0 && getState().cartReducer.cartItems.length !==0 && cartItemsFromLocalStorageAfterCartClick2){
-        console.log(' entre al otro if 3');
+      
         cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
         result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick)
         combine = [...getState().cartReducer.cartItems,...result2]
       }
      
       else{
-        console.log(' entre al else');
+     
         combine = getState().cartReducer.cartItems
       }
 
 
     
 
-      console.log('combine',combine);
+    
       
 
  
@@ -97,12 +94,12 @@ export const addToCart = (id:string|undefined, qty:number) => {
       let cartItemsFromLocalStorage:any = localStorage.getItem("cartItems")
       let result =[] as any[]
       if (cartItemsFromLocalStorage) {
-        console.log("aca");
+  
         result = JSON.parse(cartItemsFromLocalStorage)
         dispatch(cartItemsLoad( result))
        }else
        {
-         console.log("no se cumplio");
+  
          
        }  
   };

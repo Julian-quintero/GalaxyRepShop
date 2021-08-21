@@ -20,12 +20,12 @@ export const useGetLocalS = () => {
       
         if (cartItemsFromLocalStorage) {
           result = JSON.parse(cartItemsFromLocalStorage)
-          //console.log(result.length );
+
           setcartItemsFromLocal(result)
           setloading(false)
          }else
          {
-           //console.log("no se cumplio");
+
            
          }  
       

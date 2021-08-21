@@ -1,3 +1,5 @@
+import { cartAddItem, cartReducerAction } from "../actions/interfaces/cart";
+import { singleProduct } from "../actions/interfaces/product";
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
@@ -5,116 +7,75 @@ import {
   CART_SAVE_SHIPPING_ADDRESS,
 } from "../constants/cartConstants";
 
-interface cartAddItem {
-  product: string;
-  name: string;
-  image: string;
-  price: number;
-  countInStock: number;
-  qty: number;
-}
-
-interface cartReducer {
-  type: string;
-  payload: cartAddItem;
-}
-
-function checkIfItemExists(arr:any,item:any) {
-
-  console.log('arr',arr);
-  console.log('item',item);
-  
-  
-
-  const existItem = arr.find((x:any) => x.product === item.product);
-  let resultArray  
+function checkIfItemExists(arr: cartAddItem[], item: cartAddItem) {
+  const existItem = arr.find((x: any) => x.product === item.product);
+  let resultArray;
 
   if (existItem) {
-    console.log('existItem',existItem);  
-    resultArray = arr.map((x:any) =>
-    x.product === existItem.product ? item : x
-  )
-    
-  }else{
-    console.log('no existItem',existItem);  
-    resultArray = [...arr,item]   
+    resultArray = arr.map((x: any) =>
+      x.product === existItem.product ? item : x
+    );
+  } else {
+    resultArray = [...arr, item];
   }
 
-
-  return resultArray    
+  return resultArray;
 }
 
-export const cartReducer = (
-  state = { cartItems: [] as any[], shippingAddress: {} },
-  action: cartReducer
-) => {
-  const cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems") 
+export const cartReducer = (state = { cartItems: [] as any[], shippingAddress: {} }, action: cartReducerAction) => {
+  const cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems");
   const item = action.payload;
-  let result2:any
-  let existItem:any
-  let test = [] as any[]
+  let cartItems: any;
+  let existItem: cartAddItem | undefined;
+  let cartReplace: Array<cartAddItem> = []
   switch (action.type) {
     case CART_ADD_ITEM:
-      
-      
-     
-
-      if (cartItemsFromLocalStorageAfterCartClick) {  
-        
-        result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick)
-        result2 = checkIfItemExists(result2,item)     
-      }else{
-        result2 = item
+      if (cartItemsFromLocalStorageAfterCartClick) {
+        const parsedState = JSON.parse(cartItemsFromLocalStorageAfterCartClick);
+        cartItems = checkIfItemExists(parsedState, item);
+      } else {
+        cartItems = item;
       }
 
-      if (!Array.isArray(result2)) {
-        
-         existItem =  state.cartItems.find((x:any) => x.product === item.product);   
-         console.log('existItem',existItem);  
+      if (!Array.isArray(cartItems)) {
+        existItem = state.cartItems.find(
+          (x: any) => x.product === item.product
+        );
       }
-
-      // console.log('result2',result2);
-      // console.log('state.cartItems',state.cartItems);
-      // const existItem =  state.cartItems.find((x:any) => x.product === item.product);   
-
-      
-      
 
       if (existItem) {
-        console.log("existe");
         return {
           ...state,
           cartItems: state.cartItems.map((x) =>
-            x.product === existItem.product ? item : x
+            x.product === existItem?.product ? item : x
           ),
           //for each product
         };
       } else {
-        console.log("noexiste agregando");
         return {
           ...state,
-          cartItems: Array.isArray(result2) ? [...result2] : [...test,result2],
+          cartItems: Array.isArray(cartItems) ? [...cartItems] : [...cartReplace, cartItems],
           //if item doesn't exist add it.
         };
       }
 
-      case CART_REMOVE_ITEM:
+    case CART_REMOVE_ITEM:
+      if (cartItemsFromLocalStorageAfterCartClick) {
+        cartItems = JSON.parse(cartItemsFromLocalStorageAfterCartClick);
+      } else {
+        cartItems = item;
+      }
 
-        if (cartItemsFromLocalStorageAfterCartClick) {        
-          result2 = JSON.parse(cartItemsFromLocalStorageAfterCartClick) 
-        }else{
-          result2 = item
-        }
+      return {
+        ...state,
+        cartItems: cartItems.filter(
+          (item: any) => {  
 
-      
-        return {
-          ...state,
-          cartItems: result2.filter(
-            (item:any) => item.product !== action.payload
-          ),
-        };
-
-      
+            
+            
+            return item.product !== action.payload}
+        ),
+      };
 
     default:
       return state;

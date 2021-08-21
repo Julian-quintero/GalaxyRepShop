@@ -45,12 +45,12 @@ export const addToCart = (id:string|undefined, qty:number) => {
       let cartItemsFromLocalStorage:any = localStorage.getItem("cartItems")
       let result =[] as any[]
       if (cartItemsFromLocalStorage) {
-        console.log("aca");
+   
         result = JSON.parse(cartItemsFromLocalStorage)
         dispatch(cartItemsLoad( result))
        }else
        {
-         console.log("no se cumplio");
+
          
        }  
   };
