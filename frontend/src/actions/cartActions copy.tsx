@@ -20,7 +20,7 @@ export const addToCart = (id:string|undefined, qty:number) => {
     let combine
     let cartItemsFromLocalStorageAfterCartClick:any
     let cartItemsFromLocalStorageAfterCartClick2 = localStorage.getItem("cartItems") 
-    console.log(cartItemsFromLocalStorageAfterCartClick2);
+    
     
     let result2 = []
     if ( getState().cartReducer.cartItems.length ===0 && Object.keys(getState().rootState).length!==0) {  
