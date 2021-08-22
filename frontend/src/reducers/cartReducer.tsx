@@ -1,5 +1,4 @@
 import { cartAddItem, cartReducerAction } from "../actions/interfaces/cart";
-import { singleProduct } from "../actions/interfaces/product";
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,

@@ -18,7 +18,7 @@ const getProductById = asyncHandler(async (req, res) => {
 //@route GET /api/products
 //@acess Public
 const getProducts = asyncHandler(async (req, res) => {
-  console.log(req.body);
+ 
   //keyword is used when search for specific product
  const keyword = req.query.keyword ? {
    name:{

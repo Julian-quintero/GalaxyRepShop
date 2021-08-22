@@ -21,7 +21,7 @@ import Lottie from "react-lottie";
 import animationData from "../lottie/9844-loading-40-paperplane.json";
 import { productInterface } from "../actions/interfaces/product";
 import { useState } from "react";
-
+import { motion } from "framer-motion"
 interface MatchParams {
   id: string | undefined;
 }
@@ -62,6 +62,9 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
       <SimpleGrid columns={[1, 1, 2]} spacing={10} m={10}>
         <Box w="100%" p={4} color="white">
           <Center>
+          <motion.div       
+       whileHover={{ scale: 1.5 }}     
+     >
             <Image
               boxSize="50vh"
               objectFit="cover"
@@ -69,6 +72,7 @@ export const DetailsScreen = ({ match }: RouteComponentProps<MatchParams>) => {
               alt="Segun Adebayo"
               rounded="lg"
             />
+            </motion.div>
           </Center>
         </Box>
         <Box w="100%" p={4}>

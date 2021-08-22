@@ -5,6 +5,7 @@ import { useProducts } from "../hooks/useProducts";
 import { Skele } from "../components/other/Skele";
 import { TextBig } from "../components/other/TextBig";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion"
 export const HomeScreen = ({ match }: any) => {
   const keyword = match.params.keyword;
   const { products, loading, error } = useProducts();
@@ -25,9 +26,12 @@ export const HomeScreen = ({ match }: any) => {
         >
           <SimpleGrid columns={[1, 1, 2, 4]}>
             {products.map((item: any) => (
-       
+       <motion.div       
+       whileHover={{ scale: 1.1 }}
+       whileTap={{ scale: 0.9 }}
+     >
               <ProductAddToCartt product={item}></ProductAddToCartt>
- 
+              </motion.div>
             ))}
           </SimpleGrid>
         </Stack>

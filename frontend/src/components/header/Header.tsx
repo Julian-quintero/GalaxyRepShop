@@ -1,21 +1,18 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Box, Flex, Text, Button, Stack,Badge} from "@chakra-ui/react";
 import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
 import Logo from "./Logo";
 import { BiCart } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useGetLocalS } from "../../hooks/useGetLocalS";
-import Lottie from "react-lottie";
-import animationData from "../../lottie/9844-loading-40-paperplane.json";
 
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animationData,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
+import animationData from "../../lottie/9844-loading-40-paperplane.json";
+import {animate, motion, useAnimation,useMotionValue } from "framer-motion"
+
+
+
+
+
 
 const NavBar = (props: any) => {
 
@@ -23,6 +20,7 @@ const NavBar = (props: any) => {
 
   const toggle = () => setIsOpen(!isOpen);
 
+  
  
 
   return (
@@ -88,7 +86,36 @@ const MenuItem = ({
 
 const MenuLinks = ({ isOpen }: { isOpen: any }) => {
 
-  const {loading,cartItemsFromLocal} = useGetLocalS()
+  const {loading,cartItemsFromLocal,cart} = useGetLocalS()
+  const controls = useAnimation();
+  const [animated, setanimated] = useState(cartItemsFromLocal)
+  const length=cartItemsFromLocal
+  const x = useMotionValue(0)
+ 
+  const variants = {
+    visible: (i:any) => ({
+      backgroundColor: ["#60F", "#09F", "#FA0"],
+        scale: 2,
+
+      transition: {
+        delay: i * 0.3,
+      
+      },
+      
+    }),
+    hidden: { scale: 1},
+  }
+
+  const sequence = async () => {
+    await controls.start('visible')
+    return await controls.start('hidden')
+  }
+
+  useEffect(() => {
+
+    sequence()
+
+  }, [cart])
 
   
 
@@ -106,13 +133,24 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
       >
         <Link to="/cart">
           <Box pos="relative">
+         
         <Button leftIcon={<BiCart></BiCart>} colorScheme="teal">
       
         </Button>
-        <Badge ml="1" fontSize="0.8em" boxSize={5} align="center" colorScheme="red" position={"absolute"} zIndex={100} right="-2" borderRadius="50">
+     
+        <motion.div  
+ variants={variants}
+ animate={controls}
+  style={{ position:"absolute",top:-5,padding:0,left:50,colorScheme:"red"}}
+>
+        <Badge ml="1" fontSize="0.8em" boxSize={5} align="center" colorScheme="red" position={"absolute"} zIndex={100} right="-2" borderRadius="50"  >
+          
        
    {!loading ? cartItemsFromLocal.length: null }
+
   </Badge>
+  </motion.div>
+  
   </Box>
         </Link>
         <MenuItem isLast>
