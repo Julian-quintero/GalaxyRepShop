@@ -8,6 +8,7 @@ import { useGetLocalS } from "../../hooks/useGetLocalS";
 
 import animationData from "../../lottie/9844-loading-40-paperplane.json";
 import {animate, motion, useAnimation,useMotionValue } from "framer-motion"
+import { useIsLogged } from "../../hooks/useIsLogged";
 
 
 
@@ -17,6 +18,9 @@ import {animate, motion, useAnimation,useMotionValue } from "framer-motion"
 const NavBar = (props: any) => {
 
   const [isOpen, setIsOpen] = useState(false);
+
+ 
+  
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -91,6 +95,7 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
   const [animated, setanimated] = useState(cartItemsFromLocal)
   const length=cartItemsFromLocal
   const x = useMotionValue(0)
+  const {Name} = useIsLogged()
  
   const variants = {
     visible: (i:any) => ({
@@ -154,6 +159,7 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
   </Box>
         </Link>
         <MenuItem isLast>
+        <Link to="/login">
           <Button
             size="md"
             rounded="md"
@@ -165,19 +171,39 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
           >
             Login
           </Button>
+          </Link>
         </MenuItem>
         <MenuItem isLast>
+          {Name ?
+
+<Button
+size="md"
+rounded="md"
+color={["primary.500", "primary.500", "white", "white"]}
+bg={["white", "white", "primary.500", "primary.500"]}
+_hover={{
+  bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
+}}
+>
+Profile
+</Button>
+          
+          :
+
           <Button
-            size="md"
-            rounded="md"
-            color={["primary.500", "primary.500", "white", "white"]}
-            bg={["white", "white", "primary.500", "primary.500"]}
-            _hover={{
-              bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
-            }}
-          >
-            Create Account
-          </Button>
+          size="md"
+          rounded="md"
+          color={["primary.500", "primary.500", "white", "white"]}
+          bg={["white", "white", "primary.500", "primary.500"]}
+          _hover={{
+            bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
+          }}
+        >
+          Create Account
+        </Button>
+          
+          }
+   
         </MenuItem>
       </Stack>
     </Box>

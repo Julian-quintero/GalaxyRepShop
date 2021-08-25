@@ -24,16 +24,16 @@ const userSchema = mongoose.Schema({
 
 userSchema.methods.matchPassword = async function(enteredPassword){
 return await bcrypt.compare(enteredPassword,this.password)
-//usamos this para que sea ese usuario en especifico
+//compare plain text to encrypt password
 }
 
 userSchema.pre('save', async function(next){
-
+//middleware before we save
     if (!this.isModified('password')) {
         next()
-        //solo queremos que esto corra si NO cambia el password
-        //es decir si el cliente no lo actualiza
-        //modified es parte de mongoose sirve para verificar
+        //We check if the password is being modified when we update a profile otherwise we just do it normally.
+
+
 
         
     }
@@ -41,6 +41,7 @@ userSchema.pre('save', async function(next){
     //hash password
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password,salt)
+    //Initially this.password is the normal password but here we encrypt it.
 })
 
 

@@ -1,6 +1,7 @@
 import express from "express";
 import http from "http";
 import productRoutes from "../routes/productRoutes.js";
+import userRoutes from "../routes/userRoutes.js";
 
 class Server {
   constructor() {
@@ -15,6 +16,7 @@ class Server {
     });
 
     this.app.use("/api/products", productRoutes);
+    this.app.use('/api/users', userRoutes);
   }
 
   middlewares() {

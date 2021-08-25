@@ -8,6 +8,7 @@ import {
   productListReducer
 } from "./reducers/productReducers";
 import { rootReducer } from "./reducers/rootReducer";
+import { userLoginReducer } from "./reducers/userReducer";
 
 declare global {
   interface Window {
@@ -16,22 +17,21 @@ declare global {
 } //declaration for devtools since it doesn't have one
 
 
-interface test {
-  rootState:{cart:{}},
-  productList:{
-    loading:boolean,
-    products: any[];
 
-  }, 
-  productDetails:{product:{}}, 
-  cartReducer:{cartItems:any[],shippingAddress:{}}
-}
+
+const userInfoFromLocalStorage:any = localStorage?.getItem("userInfo")
+  ? JSON.parse(localStorage?.getItem("userInfo") || '{}') 
+  : null;
+  
+
+
 
 const reducer = combineReducers({
   rootState: rootReducer,
   productList: productListReducer,
   productDetails: productDetailsReducer,
-  cartReducer: cartReducer
+  cartReducer: cartReducer,
+  userLogin:userLoginReducer
 
 });
 
@@ -45,7 +45,7 @@ const reducer = combineReducers({
 
 
 const initialState = {
-
+  userLogin: {userInfo:userInfoFromLocalStorage}
 };
 
 const composeEnhancers =
