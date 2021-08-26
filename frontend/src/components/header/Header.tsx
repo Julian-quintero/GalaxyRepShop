@@ -1,39 +1,39 @@
-import React, { useState,useEffect } from "react";
-import { Box, Flex, Text, Button, Stack,Badge} from "@chakra-ui/react";
-import { PhoneIcon, AddIcon, WarningIcon } from "@chakra-ui/icons";
+import React, { useState, useEffect } from "react";
+import { Box, Flex, Text, Button, Stack, Badge,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem as MItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuIcon as MIcon,
+  MenuCommand,
+  MenuDivider,
+  IconButton,
+} from "@chakra-ui/react";
+import { PhoneIcon, AddIcon, WarningIcon, ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "./Logo";
 import { BiCart } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useGetLocalS } from "../../hooks/useGetLocalS";
-
+import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import animationData from "../../lottie/9844-loading-40-paperplane.json";
-import {animate, motion, useAnimation,useMotionValue } from "framer-motion"
+import { animate, motion, useAnimation, useMotionValue } from "framer-motion";
 import { useIsLogged } from "../../hooks/useIsLogged";
 
-
-
-
-
-
 const NavBar = (props: any) => {
-
   const [isOpen, setIsOpen] = useState(false);
 
- 
-  
-
   const toggle = () => setIsOpen(!isOpen);
-
-  
- 
 
   return (
     <NavBarContainer {...props}>
       <Link to="/">
-      <Logo
-        w="100px"
-        color={["white", "white", "primary.500", "primary.500"]}
-      />
+        <Logo
+          w="100px"
+          color={["white", "white", "primary.500", "primary.500"]}
+        />
       </Link>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
@@ -89,40 +89,33 @@ const MenuItem = ({
 };
 
 const MenuLinks = ({ isOpen }: { isOpen: any }) => {
-
-  const {loading,cartItemsFromLocal,cart} = useGetLocalS()
+  const { loading, cartItemsFromLocal, cart } = useGetLocalS();
   const controls = useAnimation();
-  const [animated, setanimated] = useState(cartItemsFromLocal)
-  const length=cartItemsFromLocal
-  const x = useMotionValue(0)
-  const {Name} = useIsLogged()
- 
+  const [animated, setanimated] = useState(cartItemsFromLocal);
+  const length = cartItemsFromLocal;
+  const x = useMotionValue(0);
+  const { Name } = useIsLogged();
+
   const variants = {
-    visible: (i:any) => ({
+    visible: (i: any) => ({
       backgroundColor: ["#60F", "#09F", "#FA0"],
-        scale: 2,
+      scale: 2,
 
       transition: {
         delay: i * 0.3,
-      
       },
-      
     }),
-    hidden: { scale: 1},
-  }
+    hidden: { scale: 1 },
+  };
 
   const sequence = async () => {
-    await controls.start('visible')
-    return await controls.start('hidden')
-  }
+    await controls.start("visible");
+    return await controls.start("hidden");
+  };
 
   useEffect(() => {
-
-    sequence()
-
-  }, [cart])
-
-  
+    sequence();
+  }, [cart]);
 
   return (
     <Box
@@ -138,72 +131,108 @@ const MenuLinks = ({ isOpen }: { isOpen: any }) => {
       >
         <Link to="/cart">
           <Box pos="relative">
-         
-        <Button leftIcon={<BiCart></BiCart>} colorScheme="teal">
-      
-        </Button>
-     
-        <motion.div  
- variants={variants}
- animate={controls}
-  style={{ position:"absolute",top:-5,padding:0,left:50,colorScheme:"red"}}
->
-        <Badge ml="1" fontSize="0.8em" boxSize={5} align="center" colorScheme="red" position={"absolute"} zIndex={100} right="-2" borderRadius="50"  >
-          
-       
-   {!loading ? cartItemsFromLocal.length: null }
+            <Button leftIcon={<BiCart></BiCart>} colorScheme="teal"></Button>
 
-  </Badge>
-  </motion.div>
-  
-  </Box>
+            <motion.div
+              variants={variants}
+              animate={controls}
+              style={{
+                position: "absolute",
+                top: -5,
+                padding: 0,
+                left: 50,
+                colorScheme: "red",
+              }}
+            >
+              <Badge
+                ml="1"
+                fontSize="0.8em"
+                boxSize={5}
+                align="center"
+                colorScheme="red"
+                position={"absolute"}
+                zIndex={100}
+                right="-2"
+                borderRadius="50"
+              >
+                {!loading ? cartItemsFromLocal.length : null}
+              </Badge>
+            </motion.div>
+          </Box>
         </Link>
-        <MenuItem isLast>
-        <Link to="/login">
-          <Button
-            size="md"
-            rounded="md"
-            color={["primary.500", "primary.500", "white", "white"]}
-            bg={["white", "white", "primary.500", "primary.500"]}
-            _hover={{
-              bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
-            }}
-          >
-            Login
-          </Button>
-          </Link>
-        </MenuItem>
-        <MenuItem isLast>
-          {Name ?
 
-<Button
-size="md"
-rounded="md"
-color={["primary.500", "primary.500", "white", "white"]}
-bg={["white", "white", "primary.500", "primary.500"]}
-_hover={{
-  bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
-}}
+        {Name ? null : (
+          <MenuItem isLast>
+            <Link to="/login">
+              <Button
+                size="md"
+                rounded="md"
+                color={["primary.500", "primary.500", "white", "white"]}
+                bg={["white", "white", "primary.500", "primary.500"]}
+                _hover={{
+                  bg: [
+                    "primary.100",
+                    "primary.100",
+                    "primary.600",
+                    "primary.600",
+                  ],
+                }}
+                leftIcon={<AiOutlineUserAdd></AiOutlineUserAdd>}
+              >
+                Login
+              </Button>
+            </Link>
+          </MenuItem>
+        )}
+        <MenuItem isLast>
+          {Name ? (
+
+<Menu size={'5px'}>
+<MenuButton as={IconButton}
+
+colorScheme="teal"
+ icon={<AiOutlineUser></AiOutlineUser>}>
+  Profile
+</MenuButton>
+<MenuList
+color="black"
+
+w="10%"
+
+
 >
-Profile
-</Button>
-          
-          :
+  <MItem
+  
+ 
+  >Profile</MItem>
+  <MItem>Logout</MItem>
+ </MenuList>
+</Menu>
 
-          <Button
-          size="md"
-          rounded="md"
-          color={["primary.500", "primary.500", "white", "white"]}
-          bg={["white", "white", "primary.500", "primary.500"]}
-          _hover={{
-            bg: ["primary.100", "primary.100", "primary.600", "primary.600"],
-          }}
-        >
-          Create Account
-        </Button>
-          
-          }
-   
+
+
+         
+          ) : (
+            <Link to="/register">
+            <Button
+              size="md"
+              rounded="md"
+              color={["primary.500", "primary.500", "white", "white"]}
+              bg={["white", "white", "primary.500", "primary.500"]}
+              _hover={{
+                bg: [
+                  "primary.100",
+                  "primary.100",
+                  "primary.600",
+                  "primary.600",
+                ],
+              }}
+              leftIcon={<AiOutlineUserAdd></AiOutlineUserAdd>}
+            >
+              Create Account
+            </Button>
+            </Link>
+          )}
         </MenuItem>
       </Stack>
     </Box>

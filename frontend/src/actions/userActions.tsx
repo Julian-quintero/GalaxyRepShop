@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import { Dispatch } from "redux";
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCESS } from '../constants/userConstants';
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCESS } from '../constants/userConstants';
 import { userLogin } from './interfaces/user';
 
 
@@ -46,6 +46,46 @@ export const login = (email:string, password:string) => {
       } catch (error) {
         dispatch({
           type: USER_LOGIN_FAIL,
+          payload:
+            error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message,
+        });
+      }
+    };
+  };
+
+  export const register = (name:string, email:string, password:string) => {
+    return async (dispatch:Dispatch) => {
+      dispatch({ type: USER_REGISTER_REQUEST });
+
+      const config ={
+        headers: {
+            "Content-Type": "application/json",
+          }
+      }
+  
+      try {
+
+        const {data} = await axios.post('/api/users',{name,email,password},config)
+
+    
+        dispatch({
+          type: USER_REGISTER_SUCESS,
+          payload: data,
+        });
+  
+        //Log in After register
+  
+        dispatch({
+          type: USER_LOGIN_SUCESS,
+          payload: data,
+        });
+  
+        localStorage.setItem("userInfo", JSON.stringify(data));
+      } catch (error) {
+        dispatch({
+          type: USER_REGISTER_FAIL,
           payload:
             error.response && error.response.data.message
               ? error.response.data.message

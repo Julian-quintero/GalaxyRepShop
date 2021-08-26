@@ -9,6 +9,7 @@ import { CartScreen } from './screens/CartScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import AlreadyLogged from './components/routes/AlreadyLogged';
 import { useIsLogged } from './hooks/useIsLogged';
+import { RegisterScreen } from './screens/RegisterScreen';
 
 function App() {
 
@@ -21,9 +22,9 @@ function App() {
 <Route path="/product/:id" component={DetailsScreen}></Route>
 <Route path="/cart/:id?" component={CartScreen}></Route>
 <AlreadyLogged isAuthenticated={Name} component={ LoginScreen} path="/login">
+</AlreadyLogged>
 
-
-
+<AlreadyLogged isAuthenticated={Name} component={RegisterScreen} path="/register">
 </AlreadyLogged>
 
 {/* <Route path="/login" component={LoginScreen}></Route> */}
