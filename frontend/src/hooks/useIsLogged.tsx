@@ -8,8 +8,6 @@ export const useIsLogged = () => {
 
     const userLogin = useSelector((state:any) => state.userLogin);
     const { userInfo } = userLogin;
-
-    console.log(userInfo);
     
 
     const [Name, setName] = useState();
@@ -18,11 +16,13 @@ export const useIsLogged = () => {
 
         if (userInfo) {
             setName(userInfo.name)
+        }else{
+            setName(undefined)
         }
 
        
       
-    }, [userInfo])
+    }, [userInfo,userInfo?.name])
 
 
     return {

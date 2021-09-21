@@ -21,12 +21,16 @@ function checkIfItemExists(arr: cartAddItem[], item: cartAddItem) {
   return resultArray;
 }
 
-export const cartReducer = (state = { cartItems: [] as any[], shippingAddress: {} }, action: cartReducerAction) => {
-  const cartItemsFromLocalStorageAfterCartClick = localStorage.getItem("cartItems");
+export const cartReducer = (
+  state = { cartItems: [] as any[], shippingAddress: {} },
+  action: cartReducerAction
+) => {
+  const cartItemsFromLocalStorageAfterCartClick =
+    localStorage.getItem("cartItems");
   const item = action.payload;
   let cartItems: any;
   let existItem: cartAddItem | undefined;
-  let cartReplace: Array<cartAddItem> = []
+  let cartReplace: Array<cartAddItem> = [];
   switch (action.type) {
     case CART_ADD_ITEM:
       if (cartItemsFromLocalStorageAfterCartClick) {
@@ -53,7 +57,9 @@ export const cartReducer = (state = { cartItems: [] as any[], shippingAddress: {
       } else {
         return {
           ...state,
-          cartItems: Array.isArray(cartItems) ? [...cartItems] : [...cartReplace, cartItems],
+          cartItems: Array.isArray(cartItems)
+            ? [...cartItems]
+            : [...cartReplace, cartItems],
           //if item doesn't exist add it.
         };
       }
@@ -67,13 +73,15 @@ export const cartReducer = (state = { cartItems: [] as any[], shippingAddress: {
 
       return {
         ...state,
-        cartItems: cartItems.filter(
-          (item: any) => {  
+        cartItems: cartItems.filter((item: any) => {
+          return item.product !== action.payload;
+        }),
+      };
 
-            
-            
-            return item.product !== action.payload}
-        ),
+    case CART_SAVE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: action.payload,
       };
 
     default:
