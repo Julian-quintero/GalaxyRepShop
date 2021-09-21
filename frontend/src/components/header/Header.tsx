@@ -21,10 +21,14 @@ import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import animationData from "../../lottie/9844-loading-40-paperplane.json";
 import { animate, motion, useAnimation, useMotionValue } from "framer-motion";
 import { useIsLogged } from "../../hooks/useIsLogged";
+import { logout } from "../../actions/userActions";
+import { useDispatch } from "react-redux";
+import { MenuLinks } from "./MenuLinks";
+
 
 const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { Name } = useIsLogged();
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -36,7 +40,7 @@ const NavBar = (props: any) => {
         />
       </Link>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
+      <MenuLinks Name={Name} isOpen={isOpen} />
     </NavBarContainer>
   );
 };
@@ -71,173 +75,8 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   );
 };
 
-const MenuItem = ({
-  children,
-  isLast = false,
-  ...rest
-}: {
-  children: any;
-  isLast: any;
-}) => {
-  return (
-    <>
-      <Text display="block" {...rest}>
-        {children}
-      </Text>
-    </>
-  );
-};
-
-const MenuLinks = ({ isOpen }: { isOpen: any }) => {
-  const { loading, cartItemsFromLocal, cart } = useGetLocalS();
-  const controls = useAnimation();
-  const [animated, setanimated] = useState(cartItemsFromLocal);
-  const length = cartItemsFromLocal;
-  const x = useMotionValue(0);
-  const { Name } = useIsLogged();
-
-  const variants = {
-    visible: (i: any) => ({
-      backgroundColor: ["#60F", "#09F", "#FA0"],
-      scale: 2,
-
-      transition: {
-        delay: i * 0.3,
-      },
-    }),
-    hidden: { scale: 1 },
-  };
-
-  const sequence = async () => {
-    await controls.start("visible");
-    return await controls.start("hidden");
-  };
-
-  useEffect(() => {
-    sequence();
-  }, [cart]);
-
-  return (
-    <Box
-      display={{ base: isOpen ? "block" : "none", md: "block" }}
-      flexBasis={{ base: "100%", md: "auto" }}
-    >
-      <Stack
-        spacing={8}
-        align="center"
-        justify={["center", "space-between", "flex-end", "flex-end"]}
-        direction={["column", "row", "row", "row"]}
-        pt={[4, 4, 4, 0]}
-      >
-        <Link to="/cart">
-          <Box pos="relative">
-            <Button leftIcon={<BiCart></BiCart>} colorScheme="teal"></Button>
-
-            <motion.div
-              variants={variants}
-              animate={controls}
-              style={{
-                position: "absolute",
-                top: -5,
-                padding: 0,
-                left: 50,
-                colorScheme: "red",
-              }}
-            >
-              <Badge
-                ml="1"
-                fontSize="0.8em"
-                boxSize={5}
-                align="center"
-                colorScheme="red"
-                position={"absolute"}
-                zIndex={100}
-                right="-2"
-                borderRadius="50"
-              >
-                {!loading ? cartItemsFromLocal.length : null}
-              </Badge>
-            </motion.div>
-          </Box>
-        </Link>
-
-        {Name ? null : (
-          <MenuItem isLast>
-            <Link to="/login">
-              <Button
-                size="md"
-                rounded="md"
-                color={["primary.500", "primary.500", "white", "white"]}
-                bg={["white", "white", "primary.500", "primary.500"]}
-                _hover={{
-                  bg: [
-                    "primary.100",
-                    "primary.100",
-                    "primary.600",
-                    "primary.600",
-                  ],
-                }}
-                leftIcon={<AiOutlineUserAdd></AiOutlineUserAdd>}
-              >
-                Login
-              </Button>
-            </Link>
-          </MenuItem>
-        )}
-        <MenuItem isLast>
-          {Name ? (
-
-<Menu size={'5px'}>
-<MenuButton as={IconButton}
-
-colorScheme="teal"
- icon={<AiOutlineUser></AiOutlineUser>}>
-  Profile
-</MenuButton>
-<MenuList
-color="black"
-
-w="10%"
 
 
->
-  <MItem
-  
- 
-  >Profile</MItem>
-  <MItem>Logout</MItem>
- </MenuList>
-</Menu>
-
-
-
-         
-          ) : (
-            <Link to="/register">
-            <Button
-              size="md"
-              rounded="md"
-              color={["primary.500", "primary.500", "white", "white"]}
-              bg={["white", "white", "primary.500", "primary.500"]}
-              _hover={{
-                bg: [
-                  "primary.100",
-                  "primary.100",
-                  "primary.600",
-                  "primary.600",
-                ],
-              }}
-              leftIcon={<AiOutlineUserAdd></AiOutlineUserAdd>}
-            >
-              Create Account
-            </Button>
-            </Link>
-          )}
-        </MenuItem>
-      </Stack>
-    </Box>
-  );
-};
 
 const NavBarContainer = ({
   children,

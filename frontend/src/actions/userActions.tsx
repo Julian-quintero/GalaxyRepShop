@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import { Dispatch } from "redux";
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCESS } from '../constants/userConstants';
+import { USER_LOGIN_FAIL, USER_LOGIN_LOGOUT, USER_LOGIN_REQUEST, USER_LOGIN_SUCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCESS } from '../constants/userConstants';
 import { userLogin } from './interfaces/user';
 
 
@@ -94,3 +94,14 @@ export const login = (email:string, password:string) => {
       }
     };
   };
+
+
+  export const logout = () => {
+    return async (dispatch:Dispatch) => {
+      localStorage.removeItem("userInfo");
+      dispatch({ type: USER_LOGIN_LOGOUT });
+      //dispatch({ type: USER_LIST_RESET });
+      //dispatch({ type: USER_DETAILS_RESET });
+    };
+  };
+  

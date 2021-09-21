@@ -71,3 +71,22 @@ export const removeFromCart = (id:string) => {
     );
   };
 };
+
+interface formData {
+  address:string
+  city:string
+  postalC:string
+  country:string
+}
+
+
+export const saveShippingAddress = (data:formData) => {
+  return (dispatch:Dispatch) => {
+    dispatch({
+      type: CART_SAVE_SHIPPING_ADDRESS,
+      payload: data,
+    });
+
+    localStorage.setItem("shippingAddress", JSON.stringify(data));
+  };
+};

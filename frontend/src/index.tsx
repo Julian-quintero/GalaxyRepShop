@@ -7,9 +7,21 @@ import { ChakraProvider } from "@chakra-ui/react"
 import customTheme from "./utils/theme";
 import {Provider} from 'react-redux'
 import store from './store';
+
+import "@fontsource/inter";
+// 1. Import `extendTheme`
+import { extendTheme } from "@chakra-ui/react"
+// 2. Call `extendTheme` and pass your custom values
+const theme = extendTheme({
+  fonts: {
+    body: "Inter",
+  },
+})
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={customTheme}>
+    <ChakraProvider theme={theme}>
     <Provider store={store}>
     <App />
    </Provider>

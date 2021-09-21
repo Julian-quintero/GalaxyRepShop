@@ -37,7 +37,7 @@ export const CartItems = ({product}:cartItem) => {
     return (
   
         <>
-        <Flex align="center" flexDirection={["column", "column", "column", "row"]} >
+        <Flex align="center" w="100%" flexDirection={["column", "column", "column", "row"]} justify={["space-around","space-around","space-evenly","space-evenly"]}>
           <Image
             boxSize="150px"
             objectFit="cover"
@@ -49,17 +49,17 @@ export const CartItems = ({product}:cartItem) => {
             fallback={<Lottie options={defaultOptions} height={150} width={150} />}
           />
 
-          <Text fontSize="md"  color="black" m={1}>
+          <Text fontSize="md" align="center" w={["100%","100%","100%","10%"]} color="black" m={1}>
            {product.name}
           </Text>
 
-          <Text fontSize="md"  color="black" m={1}>
+          <Text fontSize="md" align="center"  w={["100%","100%","100%","10%"]} color="black" m={1}>
             ${product.price}
           </Text>
 
 
 
-          <Select w={20} ml={1} value={product.qty} onChange={(e)=>{setQty(Number(e.target.value))}} color="black">
+          <Select align="center" w={20} ml={1} value={product.qty} onChange={(e)=>{setQty(Number(e.target.value))}} color="black">
                 {Array.from(Array(product.countInStock).keys()).map(
                   (i, index) => (
                     <option key={index + 1}>{index + 1}</option>
@@ -67,7 +67,7 @@ export const CartItems = ({product}:cartItem) => {
                 )}
               </Select>
 
-            <Button leftIcon={<BiCart></BiCart>} colorScheme="red" m={2} onClick={()=>removeFromCartHandler(product.product)}>
+            <Button align="center" w={15}  leftIcon={<BiCart></BiCart>} colorScheme="red" m={2} onClick={()=>removeFromCartHandler(product.product)}>
           Delete
         </Button>  
     
