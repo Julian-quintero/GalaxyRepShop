@@ -28,6 +28,10 @@ export const LoginScreen = ({location,history}:RouteComponentProps) => {
   const {Name} = useIsLogged()
 
 
+  console.log(redirect);
+  
+
+
 
 
   const submitHandler = (e:React.FormEvent) =>{
