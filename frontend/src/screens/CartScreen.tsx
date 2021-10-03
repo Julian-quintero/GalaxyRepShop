@@ -12,7 +12,7 @@ import {
   Td,
   Flex,
   Text,
-  Tfoot
+  Tfoot,
 } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
 import { CartItems } from "../components/cart/CartItems";
@@ -45,7 +45,10 @@ const defaultOptions = {
   },
 };
 
-export const CartScreen = ({ match,history }: RouteComponentProps<MatchParams>) => {
+export const CartScreen = ({
+  match,
+  history,
+}: RouteComponentProps<MatchParams>) => {
   const dispatch = useDispatch();
 
   let location = useLocation<stateType>();
@@ -66,8 +69,15 @@ export const CartScreen = ({ match,history }: RouteComponentProps<MatchParams>) 
   } else
     return (
       <>
-      <Center>
-      <Text fontSize="3xl" align="center" color="teal.700"  textAlign="center"  as={"span"}  position={"relative"}  _after={{
+        <Center>
+          <Text
+            fontSize="3xl"
+            align="center"
+            color="teal.700"
+            textAlign="center"
+            as={"span"}
+            position={"relative"}
+            _after={{
               content: "''",
               width: "full",
               height: "30%",
@@ -77,51 +87,60 @@ export const CartScreen = ({ match,history }: RouteComponentProps<MatchParams>) 
               bg: "teal",
               zIndex: -1,
             }}
-          >SHOPPING CART</Text>
-          </Center>
-        <SimpleGrid columns={[1, 1, 1,1]} spacing={10} m={10}>
-        <Table w="50%" variant="simple" justifySelf="center">
-              <Thead>
-                <Tr>
-                  <Th>ITEMS</Th>
-                  <Th>TOTAL PRICE</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>{cart.length}</Td>
-                  <Td>
-                    $
-                    {cart
-                      .reduce(
-                        (acc: number, item: singleProduct) =>
-                          acc + item.qty * item.price,
-                        0
-                      )
-                      .toFixed(2)}
-                  </Td>
-                </Tr>          
-              </Tbody>
-              <Tfoot >
-                <Box w="150%" display="flex" flexDirection="row" justifyItems="end" alignItems="center" justifyContent="center">
-
-    <Button mt={4} colorScheme="teal" onClick={()=>history.push('/shipping')} type="submit">
-              Continue to checkout
-            </Button>
-            </Box>
-  </Tfoot>
-            </Table>
-          <Box w="100%" p={4} color="white" >
+          >
+            SHOPPING CART
+          </Text>
+        </Center>
+        <SimpleGrid columns={[1, 1, 1, 1]} spacing={10} m={10}>
+          <Table w="50%" variant="simple" justifySelf="center">
+            <Thead>
+              <Tr>
+                <Th>ITEMS</Th>
+                <Th>TOTAL PRICE</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <Tr>
+                <Td>{cart.length}</Td>
+                <Td>
+                  $
+                  {cart
+                    .reduce(
+                      (acc: number, item: singleProduct) =>
+                        acc + item.qty * item.price,
+                      0
+                    )
+                    .toFixed(2)}
+                </Td>
+              </Tr>
+            </Tbody>
+            <Tfoot>
+              <Box
+                w="150%"
+                display="flex"
+                flexDirection="row"
+                justifyItems="end"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  onClick={() => history.push("/shipping")}
+                  type="submit"
+                >
+                  Continue to checkout
+                </Button>
+              </Box>
+            </Tfoot>
+          </Table>
+          <Box w="100%" p={4} color="white">
             <Flex direction="column" alignItems="center" justify="space-evenly">
-            {cart.map((product: singleProduct) => (
-       
-              <CartItems key={product.name} product={product}></CartItems>
-    
-            ))}
-             </Flex>
+              {cart.map((product: singleProduct) => (
+                <CartItems key={product.name} product={product}></CartItems>
+              ))}
+            </Flex>
           </Box>
-
-     
         </SimpleGrid>
       </>
     );
