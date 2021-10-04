@@ -39,15 +39,26 @@ export const CartItems = ({
         align="center"
         w="100%"
         flexDirection={["column", "column", "column", "row"]}
-        justify={[
+        justify={
+          !placeOrder
+          ?
+          [
           "space-around",
           "space-around",
           "space-evenly",
           "space-evenly",
-        ]}
+        ]
+        :
+        [
+          "space-around",
+          "space-around",
+          "space-around",
+          "space-around",
+        ]
+      }
       >
         <Image
-          boxSize="150px"
+          boxSize={!placeOrder ? "150px" : "100px"}
           objectFit="cover"
           src={product.image}
           alt="Segun Adebayo"
@@ -60,9 +71,16 @@ export const CartItems = ({
         />
 
         <Text
-          fontSize="md"
+          fontSize={!placeOrder ? "md" : "sm"}
           align="center"
-          w={["100%", "100%", "100%", "10%"]}
+          w={
+            !placeOrder ?
+            
+            ["100%", "100%", "100%", "10%"]
+
+            :
+            ["100%", "100%", "100%", "100%"]
+          }
           color="black"
           m={1}
         >
@@ -70,7 +88,7 @@ export const CartItems = ({
         </Text>
 
         <Text
-          fontSize="md"
+         fontSize={!placeOrder ? "md" : "sm"}
           align="center"
           w={["100%", "100%", "100%", "10%"]}
           color="black"

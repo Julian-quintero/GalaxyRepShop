@@ -11,10 +11,14 @@ import AlreadyLogged from './components/routes/AlreadyLogged';
 import { useIsLogged } from './hooks/useIsLogged';
 import { RegisterScreen } from './screens/RegisterScreen';
 import { ShippingScreen } from './screens/ShippingScreen';
+import { PaymentScreen } from './screens/PaymentScreen';
+import { PlacerOrder } from './components/placeOrder/PlacerOrder';
+
 
 function App() {
 
  const {Name} = useIsLogged()
+
   
   return (
 <Router>
@@ -26,8 +30,13 @@ function App() {
 
 <AlreadyLogged path="/shipping" component={ShippingScreen}></AlreadyLogged>
 
+<AlreadyLogged path="/payment" component={PaymentScreen}></AlreadyLogged>
 
-<AlreadyLogged isAuthenticated={Name} component={ LoginScreen} path="/login">
+
+<AlreadyLogged isAuthenticated={Name} component={LoginScreen} path="/login">
+</AlreadyLogged>
+
+<AlreadyLogged  component={PlacerOrder} path="/placeorder">
 </AlreadyLogged>
 
 <AlreadyLogged isAuthenticated={Name} component={RegisterScreen} path="/register">

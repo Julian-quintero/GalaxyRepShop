@@ -22,6 +22,10 @@ declare global {
 const userInfoFromLocalStorage:any = localStorage?.getItem("userInfo")
   ? JSON.parse(localStorage?.getItem("userInfo") || '{}') 
   : null;
+
+  const shippingAddressFromLocalStorage:any = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("shippingAddress") || '{}')
+  : {}
   
 
 
@@ -45,7 +49,8 @@ const reducer = combineReducers({
 
 
 const initialState = {
-  userLogin: {userInfo:userInfoFromLocalStorage}
+  userLogin: {userInfo:userInfoFromLocalStorage},
+  cartReducer:{cartItems:[],shippingAddress:shippingAddressFromLocalStorage}
 };
 
 const composeEnhancers =
