@@ -75,7 +75,7 @@ export const removeFromCart = (id:string) => {
 interface formData {
   address:string
   city:string
-  postalC:string
+  postal:string
   country:string
 }
 

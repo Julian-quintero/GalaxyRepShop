@@ -32,6 +32,7 @@ declare global {
 interface RootState {
   rootState: { cart: cartAddItem[] };
   cartReducer: {shippingAddress: formData};
+  userLogin:{userInfo:{token:string}}
 }
 
 interface cartAddItem {
@@ -57,12 +58,46 @@ export const PlacerOrder = () => {
 
   const [preferenceId, setPreferenceId] = useState<null | string>(null);
 
+  const {userInfo} = useSelector(
+    (state: RootState) => state.userLogin
+  );
+
+  const getPreferenceId = async () => {
+
+    
+    
+
+   const result = await axios.post("/api/payments/mercadopago",{
+     orderItems:cart,    
+     shippingAddress:shippingAddress,
+     paymentMethod:"MercadoPago",
+     itemsPrice:itemsPrice,
+     taxPrice:taxPrice,
+     shippingPrice:totalPrice,
+     totalPrice:totalPrice,
+
+
+
+    },{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      }
+    })
+
+   setPreferenceId(result.data.idpago);
+
+
+
+  }
+
 
   useEffect(() => {
     // luego de montarse el componente, le pedimos al backend el preferenceId
-    axios.post("/api/payments/mercadopago").then((item: any) => {
-      setPreferenceId(item.data.idpago);
-    });
+    // axios.post("/api/payments/mercadopago",{cart}).then((item: string) => {
+    //   setPreferenceId(item.data.idpago);
+    // });
+    getPreferenceId()
   }, []);
 
 
@@ -107,6 +142,8 @@ export const PlacerOrder = () => {
   
 
   const itemsPrice = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const taxPrice = (itemsPrice * 0.15).toFixed(2)
+  const totalPrice = (itemsPrice * 0.15 + itemsPrice).toFixed(2)
 
 
   return (
@@ -134,8 +171,8 @@ export const PlacerOrder = () => {
             SHIPPING ADDRESS
           </Text>
 
-          <Heading size="sm" fontWeight="extrabold" mt="6" mb="2">
-            Address: { shippingAddress.address} { shippingAddress.city} { shippingAddress.country} { shippingAddress.postalC}
+          <Heading size="sm"  mt="6" mb="2">
+            { shippingAddress.address} { shippingAddress.city} { shippingAddress.country} { shippingAddress.postalC}
           </Heading>
 
           <Divider></Divider>
@@ -162,7 +199,7 @@ export const PlacerOrder = () => {
           </Text>
 
           <Heading size="sm"  mt="6" mb="2">
-            Method: MercadoPago
+           MercadoPago
           </Heading>
 
           <Divider></Divider>
@@ -217,10 +254,10 @@ export const PlacerOrder = () => {
                 <Td>Items: ${itemsPrice}</Td>
               </Tr>
               <Tr>
-                <Td>Tax: ${(itemsPrice * 0.15).toFixed(2)}</Td>
+                <Td>Tax: ${taxPrice}</Td>
               </Tr>
               <Tr>
-                <Td>Total: ${(itemsPrice * 0.15 + itemsPrice).toFixed(2)} </Td>
+                <Td>Total: ${totalPrice} </Td>
               </Tr>
             </Tbody>
             <Tfoot>

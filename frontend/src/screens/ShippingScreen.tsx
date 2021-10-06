@@ -33,13 +33,13 @@ import { RouteComponentProps } from "react-router-dom";
 import { CheckoutSteps } from "../components/CheckoutSteps/CheckoutSteps";
 
 interface RootState {
-  cartReducer: { shippingAddress: formData };
+  cartReducer: { shippingAddress: formShippingData };
 }
 
-interface formData {
+interface formShippingData {
   address: string;
   city: string;
-  postalC: string;
+  postal: string;
   country: string;
 }
 
@@ -50,10 +50,10 @@ export const ShippingScreen = ({ history }: RouteComponentProps) => {
 
   const [address, setAddress] = useState(shippingAddress.address);
   const [city, setCity] = useState(shippingAddress.city);
-  const [postalC, setPostalC] = useState(shippingAddress.postalC);
+  const [postal, setPostal] = useState(shippingAddress.postal);
   const [country, setCountry] = useState(shippingAddress.country);
 
-  const formData: formData = { address, city, postalC, country };
+  const formData: formShippingData = { address, city, postal, country };
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
@@ -99,9 +99,9 @@ export const ShippingScreen = ({ history }: RouteComponentProps) => {
             <FormControl id="password" color="green" mt={3}>
               <FormLabel>Postal Code</FormLabel>
               <Input
-                value={postalC}
+                value={postal}
                 type="text"
-                onChange={(e) => setPostalC(e.target.value)}
+                onChange={(e) => setPostal(e.target.value)}
               />
             </FormControl>
 
