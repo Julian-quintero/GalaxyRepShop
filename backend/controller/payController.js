@@ -9,7 +9,8 @@ mercadopago.configure({
 
 const payment = asyncHandler(async (req, res) => {
 
-  console.log(req.user)
+  let orderId
+
 
  const {
   orderItems,
@@ -41,6 +42,7 @@ try {
     });
   
     const createdOrder = await order.save();
+    orderId = (createdOrder._id).toString()  
     //res.status(201).json(createdOrder);
   }
   
@@ -53,14 +55,14 @@ try {
 
 
 
-
-
-
  const total = (itemsPrice * 0.15 + itemsPrice).toFixed(2)
 
   let preference = {
-    external_reference: '1234',
-    notification_url:`https://cdfc-179-15-47-71.ngrok.io/api/payments/mercadopago/ipn`,
+    external_reference: orderId,
+    notification_url:`https://525e-179-15-47-71.ngrok.io/api/payments/mercadopago/ipn`,
+    back_urls:{
+      'success':"www.google.com"
+    },
     items: [
     
           {
@@ -77,6 +79,7 @@ try {
     .then(function (response) {
       // Este valor reemplazará el string "<%= global.id %>" en tu HTML
       // global.id = response.body.id;
+
 
       res.json({
         idpago: response.body.id,
